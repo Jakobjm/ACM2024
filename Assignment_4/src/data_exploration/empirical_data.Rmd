@@ -4,23 +4,25 @@ output: html_document
 ---
 
 
-
+Load needed packages
 ```{r, echo=TRUE, results='hide'}
 library(pacman)
 p_load(tidyverse, readr)
 ```
 
-
+Read in the data, filter it to extract just subject 1, at session1, in condition 1, where its not the test trials.
+Then selecting the relevant columns.
 ```{r, echo=TRUE, message='hide'}
-AlienData <- read_csv("C:/Users/Jakob/Programming_projects/R_projects/ACM2024/Assignment_4/data/AlienData.txt") %>% 
+AlienData <- read_csv("Assignment_4/data/AlienData.txt") %>% 
              filter(subject == 1 & session ==1 & condition==1 & test != 1) %>%
              select(trial, category, dangerous, nutritious = nutricious , response, correct)
 
 
 ```
 
-
+Adding a cumulative count column for correct answers, and plotting that against a reference line (100% correct)
 ```{r, echo=TRUE, results='hide'}
+
 AlienData <- AlienData %>% mutate(cum_correct = cumsum(correct))
 
 plot1 <- ggplot(AlienData, aes(x = trial, y = cum_correct)) +
@@ -43,6 +45,6 @@ plot1
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 ```
 
